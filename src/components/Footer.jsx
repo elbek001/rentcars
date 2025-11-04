@@ -1,127 +1,103 @@
-import {
-  Car,
-  Facebook,
-  Instagram,
-  Twitter,
-  Youtube,
-  MapPin,
-  Mail,
-  Phone,
-} from "lucide-react";
+import { MapPin, Mail, Phone, Car } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-white text-sm text-gray-700 border-t border-gray-100">
-      {/* === YUQORI QATOR === */}
-      <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-5 gap-8">
-        {/* 1: Logo, text, social */}
-        <div>
-          <div className="flex items-center space-x-2 mb-5">
-            <Car className="w-6 h-6 text-black" />
-            <span className="font-semibold text-lg text-black">Car Rental</span>
-          </div>
-          <div className="font-semibold text-black leading-relaxed space-y-1">
-            <p>Faucibus faucibus</p>
-            <p>pellentesque dictum turpis.</p>
-            <p>Id pellentesque turpis</p>
-            <p>massa a id iaculis lorem t...</p>
-          </div>
-
-          <div className="flex items-center space-x-3 mt-5">
-            {[Facebook, Instagram, Twitter, Youtube].map((Icon, i) => (
-              <a
-                key={i}
-                href="#"
-                className="p-2 bg-black rounded-full text-white hover:bg-gray-800 transition"
-              >
-                <Icon className="w-4 h-4" />
-              </a>
-            ))}
-          </div>
-        </div>
-
-        {/* 2: Address */}
-        <div className="flex items-start space-x-3">
-          <div className="bg-amber-500 p-2 rounded-full text-white mt-1">
-            <MapPin className="w-4 h-4" />
-          </div>
-          <div>
-            <p className="text-xs text-gray-700">Address</p>
-            <p className="font-semibold text-black">
-              Oxford Ave. Cary, NC 27511
-            </p>
-          </div>
-        </div>
-
-        {/* 3: Email */}
-        <div className="flex items-start space-x-3">
-          <div className="bg-amber-500 p-2 rounded-full text-white mt-1">
-            <Mail className="w-4 h-4" />
-          </div>
-          <div>
-            <p className="text-xs text-gray-700">Email</p>
-            <p className="font-semibold text-black">nwiger@yahoo.com</p>
-          </div>
-        </div>
-
-        {/* 4: Phone */}
-        <div className="flex items-start space-x-3">
-          <div className="bg-amber-500 p-2 rounded-full text-white mt-1">
-            <Phone className="w-4 h-4" />
-          </div>
-          <div>
-            <p className="text-xs text-gray-700">Phone</p>
-            <p className="font-semibold text-black">+537 547-6401</p>
-          </div>
-        </div>
-
-        {/* 5: Download App */}
-        <div>
-          <p className="font-semibold text-black mb-3">Download App</p>
-          <div className="flex flex-col gap-2">
+    <footer className=" text-gray-900">
+      {/* ===== Top Brand Logos ===== */}
+      <div className="max-w-6xl mx-auto flex flex-wrap justify-center items-center gap-20                                py-10 rounded-2xl bg-gray-50">
+        {["toyota", "ford", "mercedes", "jeep", "bmw", "audi"].map((brand) => (
+          <div key={brand} className="w-20 opacity-90">
             <img
-              src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Download_on_the_App_Store_Badge.svg"
-              alt="App Store"
-              className="h-10 w-auto"
+              src={`https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/${brand}.svg`}
+              alt={brand}
+              className="w-full h-auto invert-0"
             />
+          </div>
+        ))}
+      </div>
+
+      {/* ===== Footer Content ===== */}
+      <div className="max-w-6xl mx-auto py-12 px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 text-sm">
+        {/* Left section */}
+        <div>
+          <div className="flex items-center space-x-2 mb-4">
+            <Car className="w-6 h-6" />
+            <h2 className="font-semibold text-lg">Car Rental</h2>
+          </div>
+          <p className="text-gray-600 mb-4 leading-relaxed">
+            Faucibus faucibus pellentesque dictum turpis. Id pellentesque turpis
+            massa a id iaculis lorem t...
+          </p>
+          <div className="flex space-x-4 text-gray-600">
+            <i className="fab fa-facebook-f"></i>
+            <i className="fab fa-instagram"></i>
+            <i className="fab fa-twitter"></i>
+            <i className="fab fa-youtube"></i>
+          </div>
+        </div>
+
+        {/* Address */}
+        <div>
+          <h3 className="font-semibold mb-4">Address</h3>
+          <div className="flex items-center space-x-2 mb-3">
+            <MapPin className="w-4 h-4 text-orange-500" />
+            <p>Oxford Ave. Cary, NC 27511</p>
+          </div>
+          <div className="flex items-center space-x-2 mb-3">
+            <Mail className="w-4 h-4 text-orange-500" />
+            <p>nwiger@yahoo.com</p>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Phone className="w-4 h-4 text-orange-500" />
+            <p>+537 547-6401</p>
+          </div>
+        </div>
+
+        {/* Useful Links */}
+        <div>
+          <h3 className="font-semibold mb-4">Useful Links</h3>
+          <ul className="space-y-2 text-gray-600">
+            <li><a href="#" className="hover:text-orange-500">About us</a></li>
+            <li><a href="#" className="hover:text-orange-500">Contact us</a></li>
+            <li><a href="#" className="hover:text-orange-500">Gallery</a></li>
+            <li><a href="#" className="hover:text-orange-500">Blog</a></li>
+            <li><a href="#" className="hover:text-orange-500">F.A.Q</a></li>
+          </ul>
+        </div>
+
+        {/* Vehicles + App Download */}
+        <div>
+          <h3 className="font-semibold mb-4">Vehicles</h3>
+          <ul className="space-y-2 text-gray-600 mb-6">
+            <li>Sedan</li>
+            <li>Cabriolet</li>
+            <li>Pickup</li>
+            <li>Minivan</li>
+            <li>SUV</li>
+          </ul>
+
+          <h3 className="font-semi bold mb-3">Download App</h3>
+          <div className="flex flex-col gap-2">
+            <div className="w-[150px]">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/2560px-Download_on_the_App_Store_Badge.svg.png"
+              alt="App Store"
+              className="h-10"
+            />
+            </div>
+            <div>
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
               alt="Google Play"
-              className="h-10 w-auto"
+              className="h-10"
             />
+            </div>
           </div>
         </div>
       </div>
 
-      {/* === PASTKI QATOR === */}
-      <div className="max-w-7xl mx-auto px-6 pb-10 grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Useful Links */}
-        <div>
-          <h4 className="font-semibold text-black mb-3">Useful links</h4>
-          <ul className="space-y-1 text-gray-700 font-medium">
-            <li><a href="#" className="hover:text-black">About us</a></li>
-            <li><a href="#" className="hover:text-black">Contact us</a></li>
-            <li><a href="#" className="hover:text-black">Gallery</a></li>
-            <li><a href="#" className="hover:text-black">Blog</a></li>
-            <li><a href="#" className="hover:text-black">F.A.Q</a></li>
-          </ul>
-        </div>
-
-        {/* Vehicles */}
-        <div>
-          <h4 className="font-semibold text-black mb-3">Vehicles</h4>
-          <ul className="space-y-1 text-gray-700 font-medium">
-            <li><a href="#" className="hover:text-black">Sedan</a></li>
-            <li><a href="#" className="hover:text-black">Cabriolet</a></li>
-            <li><a href="#" className="hover:text-black">Pickup</a></li>
-            <li><a href="#" className="hover:text-black">Minivan</a></li>
-            <li><a href="#" className="hover:text-black">SUV</a></li>
-          </ul>
-        </div>
-      </div>
-
-      {/* COPYRIGHT */}
-      <div className="text-center text-gray-500 text-xs border-t border-gray-100 py-4">
+      {/* ===== Bottom copyright ===== */}
+      <div className="border-t border-gray-200 mt-6 py-4 text-center text-gray-500 text-xs">
         © Copyright Car Rental 2024. Design by Figma.guru
       </div>
     </footer>
