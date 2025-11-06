@@ -1,26 +1,26 @@
 import React, { useState } from "react";
-import g from "../assets/g.png";
-import video from './../assets/v.mp4';
-import e from "../assets/e.png";
-import q from "../assets/q.png";
-import s from "../assets/car.png";
-import a from "../assets/a.png";
-import w from "../assets/w.png";
-import m from "../assets/m.png";
-import z from "../assets/z.png";
-import y from "../assets/y.png";
-import b from "../assets/b.png";
-import i from "../assets/i.png";
-import o from "../assets/o.png";
-
+import g from "../assets/g.png";      // иконка для списка преимуществ
+import video from './../assets/v.mp4'; // видео для секций
+import e from "../assets/e.png";      // иконка для отзывов
+import q from "../assets/q.png";      // иконка для рейтинга в отзывах
+import s from "../assets/car.png";    // изображение машины
+import a from "../assets/a.png";      // иконка/лого для футера
+import w from "../assets/w.png";      // иконка/лого для футера
+import m from "../assets/m.png";      // иконка/лого для футера
+import z from "../assets/z.png";      // иконка/лого для футера
+import y from "../assets/y.png";      // иконка/скачивания приложений
+import b from "../assets/b.png";      // (не используется в коде)
+import i from "../assets/i.png";      // иконка для App Store
+import o from "../assets/o.png";      // иконка для Google Play
 
 export default function AboutUs() {
-  const [openIndex, setOpenIndex] = useState(null);
+  const [openIndex, setOpenIndex] = useState(null); // состояние для раскрытия FAQ
 
   const toggle = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
+    setOpenIndex(openIndex === index ? null : index); // открываем/закрываем конкретный FAQ
   };
 
+  // Массив вопросов и ответов для секции FAQ
   const faqs = [
     {
       question: "How does it work?",
@@ -46,15 +46,15 @@ export default function AboutUs() {
   ];
 
   return (
-
     <section className="px-6 sm:px-10 md:px-16 lg:px-24 py-20 max-w-7xl mx-auto text-gray-800">
-    
+
+      {/* Заголовок секции */}
       <div className="text-center mb-14">
         <h2 className="text-4xl font-extrabold mb-3 tracking-tight">About Us</h2>
         <p className="text-gray-500 text-sm">Home / About Us</p>
       </div>
 
-      {/* Top content */}
+      {/* Основная информация о компании (три колонки) */}
       <div className="grid md:grid-cols-3 gap-12 mb-20">
         <div>
           <h3 className="text-3xl font-bold mb-4 leading-snug">
@@ -90,12 +90,12 @@ export default function AboutUs() {
         </div>
       </div>
 
-      {/* Video block */}
+      {/* Видео блок */}
       <div className="flex justify-center items-center rounded-3xl pb-20">
         <video controls className="rounded-2xl shadow-lg w-full max-w-3xl" src={video}></video>
       </div>
 
-      {/* Stats */}
+      {/* Статистика */}
       <div className="grid sm:grid-cols-3 text-center mb-20 gap-10">
         <div>
           <h3 className="text-6xl font-extrabold text-purple-600 mb-2">20k+</h3>
@@ -122,6 +122,7 @@ export default function AboutUs() {
             Quis nunc interdum gravida ullamcorper.
           </p>
 
+          {/* Список преимуществ с иконками */}
           <ul className="space-y-3 text-sm">
             <li className="flex items-start gap-3">
               <img className="w-6 h-6 mt-1" src={g} alt="" />
@@ -142,6 +143,7 @@ export default function AboutUs() {
           </ul>
         </div>
 
+        {/* Видео справа */}
         <div className="flex justify-center items-center rounded-3xl pb-20">
           <video controls className="rounded-2xl shadow-lg w-full max-w-3xl" src={video}></video>
         </div>
@@ -153,116 +155,64 @@ export default function AboutUs() {
           Reviews from our customers
         </h1>
 
+        {/* 🔹 Список отзывов — API orqali */}
         <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 px-6">
-          {[
-            { text: "Amazing service! The car was spotless and ran perfectly. Definitely renting again!", author: "— John D." },
-            { text: "Super flexible and easy to book. I had the best experience ever.", author: "— Emily R." },
-            { text: "24/7 support is real! They helped me even late at night. Highly recommend.", author: "— Michael S." }
-          ].map((review, index) => (
-            <div key={index} className="bg-white shadow-md rounded-2xl p-10 text-center transition hover:shadow-xl">
-              <img className="pb-4" src={e} alt="" />
-              <p className="text-gray-600 italic mb-6 leading-relaxed">“{review.text}”</p>
-              <h3 className="font-semibold text-lg text-purple-600">{review.author}</h3>
-              <div className="flex pt-4 justify-center items-center">
-                <img src={q} alt="" />
+          {loading ? (
+            <p className="text-center text-gray-500 col-span-3">Loading reviews...</p>
+          ) : (
+            reviews.map((review, index) => (
+              <div
+                key={index}
+                className="bg-white shadow-md rounded-2xl p-10 text-center transition hover:shadow-xl"
+              >
+                <img className="pb-4 mx-auto" src={e} alt="" /> {/* иконка сверху */}
+                <p className="text-gray-600 italic mb-6 leading-relaxed">
+                  “{review.comment || review.text || 'No review text'}”
+                </p>
+                <h3 className="font-s emibold text-lg text-purple-600">
+                  {review.name || review.author || 'Anonymous'}
+                </h3>
+                <div className="flex pt-4 justify-center items-center">
+                  <img src={q} alt="" /> {/* звезды */}
+                </div>
               </div>
+            ))
+          )}
+        </div>
+
+
+        {/* FAQ Section */}
+        <div className="max-w-3xl mx-auto mt-20">
+          <h1 className="text-4xl font-bold text-center mb-10 text-gray-800">
+            Top Car Rental Questions
+          </h1>
+
+          {/* Вопросы с раскрытием */}
+          {faqs.map((faq, index) => (
+            <div key={index} className="border rounded-xl mb-4 shadow-sm overflow-hidden">
+              <button
+                onClick={() => toggle(index)}
+                className="w-full text-left p-4 font-semibold text-gray-800 flex justify-between items-center"
+              >
+                {faq.question}
+                <span className="text-xl">{openIndex === index ? "−" : "+"}</span>
+              </button>
+
+              {openIndex === index && (
+                <div className="p-4 text-gray-500 border-t bg-gray-50 transition-all duration-300">
+                  {faq.answer}
+                </div>
+              )}
             </div>
           ))}
         </div>
+
+        {/* Футер с иконками и ссылками */}
+        <div className="pt-20">
+          <img src={s} alt="" />
+        </div>
       </div>
-
-      {/* FAQ Section */}
-      <div className="max-w-3xl mx-auto mt-20">
-        <h1 className="text-4xl font-bold text-center mb-10 text-gray-800">
-          Top Car Rental Questions
-        </h1>
-
-        {faqs.map((faq, index) => (
-          <div key={index} className="border rounded-xl mb-4 shadow-sm overflow-hidden">
-            <button
-              onClick={() => toggle(index)}
-              className="w-full text-left p-4 font-semibold text-gray-800 flex justify-between items-center"
-            >
-              {faq.question}
-              <span className="text-xl">{openIndex === index ? "−" : "+"}</span>
-            </button>
-
-            {openIndex === index && (
-              <div className="p-4 text-gray-500 border-t bg-gray-50 transition-all duration-300">
-                {faq.answer}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-      <div className="pt-20 " >
-        <img src={s} alt="" />
-
-      </div>
-      <footer className="pt-20 gap-5  flex ">
-        <div className="">
-          <img src={a} alt="" />
-          <p className="w-[250px] pt-15   text-black  h-[120px]" >Faucibus faucibus pellentesque dictum turpis. Id pellentesque turpis massa a id iaculis lorem t...</p>
-          <img className="pt-10" src={w} alt="" />
-        </div>
-
-        <div className="">
-          <img src={m} alt="" />
-          <div className="w-[300px]  pt-5">
-
-            <h3 className="flex text-black text-xl justify-center">Useful links</h3>
-            <div className="flex pt-5 w-[280px]  justify-center">
-
-              <p  >About us <br />
-                Contact us <br />
-                Gallery <br />
-                Blog <br />
-                F.A.Q</p>
-            </div>
-
-
-          </div>
-
-        </div>
-        <div className="">
-          <img src={z} alt="" />
-          <div className="w-[250px]  pt-5">
-
-            <h3 className="flex text-black text-xl justify-center">Vehicles</h3>
-            <div className="flex pt-5 w-[250px]  justify-center">
-
-              <p  >
-                Sedan <br />
-                Cabriolet <br />
-                Pickup <br />
-                Minivan <br />
-                SUV
-              </p>
-            </div>
-
-
-          </div>
-
-        </div>
-
-
-        <div className="">
-          <img src={y} alt="" />
-          <div className="">
-            <div className="pt-5">
-              <h3 className="text-xl">Download App</h3>
-              <img className="pt-5" src={i} alt="" />
-              <img className="pt-5" src={o} alt="" />
-
-            </div>
-          </div>
-        </div>
-
-
-      </footer>
-
 
     </section>
-
   );
 }
