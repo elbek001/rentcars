@@ -13,7 +13,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="flex justify-between items-center px-10 py-4 shadow-sm bg-white">
+    <nav className="flex justify-between items-center px-10 py-4 mx-10 ">
       {/* Left - Logo */}
       <div className="flex items-center gap-2">
         <img src="../src/assets/Logo.png" alt="logo" className="w- h-10" />
