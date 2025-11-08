@@ -277,7 +277,6 @@ export default function CarRentalContact() {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 }

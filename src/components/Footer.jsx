@@ -1,105 +1,137 @@
-import { MapPin, Mail, Phone, Car } from "lucide-react";
+import React from "react";
+import { Car, MapPin, Mail, Phone } from "lucide-react";
+import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { NavLink, useNavigate } from "react-router-dom";
 
-export default function Footer() {
+const Footer = () => {
   return (
-    <footer className=" text-gray-900">
-      {/* ===== Top Brand Logos ===== */}
-      <div className="max-w-6xl mx-auto flex flex-wrap justify-center items-center gap-20                                py-10 rounded-2xl bg-gray-50">
-        {["toyota", "ford", "mercedes", "jeep", "bmw", "audi"].map((brand) => (
-          <div key={brand} className="w-20 opacity-90">
-            <img
-              src={`https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/${brand}.svg`}
-              alt={brand}
-              className="w-full h-auto invert-0"
-            />
-          </div>
-        ))}
-      </div>
+    <footer className="bg-white text-black md:px-20 py-30 border-gray-200">
+      {/* 🔹 Yuqori qism */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
 
-      {/* ===== Footer Content ===== */}
-      <div className="max-w-6xl mx-auto py-12 px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 text-sm">
-        {/* Left section */}
+        {/* 1️⃣ Logo va Social */}
         <div>
-          <div className="flex items-center space-x-2 mb-4">
-            <Car className="w-6 h-6" />
-            <h2 className="font-semibold text-lg">Car Rental</h2>
+          <div className="flex items-center gap-2 mb-6">
+            <Car className="text-black" size={28} />
+            <h2 className="text-lg font-semibold">Car Rental</h2>
           </div>
-          <p className="text-gray-600 mb-4 leading-relaxed">
-            Faucibus faucibus pellentesque dictum turpis. Id pellentesque turpis
+
+          <p className="text-gray-800 font-semibold leading-snug mb-6">
+            Faucibus faucibus <br />
+            pellentesque dictum turpis. <br />
+            Id pellentesque turpis <br />
             massa a id iaculis lorem t...
           </p>
-          <div className="flex space-x-4 text-gray-600">
-            <i className="fab fa-facebook-f"></i>
-            <i className="fab fa-instagram"></i>
-            <i className="fab fa-twitter"></i>
-            <i className="fab fa-youtube"></i>
+
+          <div className="flex items-center gap-5">
+            <FaFacebookF className="text-black cursor-pointer hover:opacity-70" size={18} />
+            <FaInstagram className="text-black cursor-pointer hover:opacity-70" size={18} />
+            <FaTwitter className="text-black cursor-pointer hover:opacity-70" size={18} />
+            <FaYoutube className="text-black cursor-pointer hover:opacity-70" size={18} />
           </div>
         </div>
 
-        {/* Address */}
-        <div>
-          <h3 className="font-semibold mb-4">Address</h3>
-          <div className="flex items-center space-x-2 mb-3">
-            <MapPin className="w-4 h-4 text-orange-500" />
-            <p>Oxford Ave. Cary, NC 27511</p>
-          </div>
-          <div className="flex items-center space-x-2 mb-3">
-            <Mail className="w-4 h-4 text-orange-500" />
-            <p>nwiger@yahoo.com</p>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Phone className="w-4 h-4 text-orange-500" />
-            <p>+537 547-6401</p>
-          </div>
-        </div>
-
-        {/* Useful Links */}
-        <div>
-          <h3 className="font-semibold mb-4">Useful Links</h3>
-          <ul className="space-y-2 text-gray-600">
-            <li><a href="#" className="hover:text-orange-500">About us</a></li>
-            <li><a href="#" className="hover:text-orange-500">Contact us</a></li>
-            <li><a href="#" className="hover:text-orange-500">Gallery</a></li>
-            <li><a href="#" className="hover:text-orange-500">Blog</a></li>
-            <li><a href="#" className="hover:text-orange-500">F.A.Q</a></li>
-          </ul>
-        </div>
-
-        {/* Vehicles + App Download */}
-        <div>
-          <h3 className="font-semibold mb-4">Vehicles</h3>
-          <ul className="space-y-2 text-gray-600 mb-6">
-            <li>Sedan</li>
-            <li>Cabriolet</li>
-            <li>Pickup</li>
-            <li>Minivan</li>
-            <li>SUV</li>
-          </ul>
-
-          <h3 className="font-semi bold mb-3">Download App</h3>
-          <div className="flex flex-col gap-2">
-            <div className="w-[150px]">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/2560px-Download_on_the_App_Store_Badge.svg.png"
-              alt="App Store"
-              className="h-10"
-            />
+        {/* 2️⃣ Address + Useful Links */}
+        <div className="flex flex-col gap-6">
+          {/* Address */}
+          <div className="flex items-start gap-3">
+            <div className="bg-yellow-500 p-2 rounded-full">
+              <MapPin className="text-white" size={18} />
             </div>
             <div>
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
-              alt="Google Play"
-              className="h-10"
-            />
+              <p className="text-sm text-gray-600">Address</p>
+              <p className="font-semibold">Oxford Ave. Cary, NC 27511</p>
+            </div>
+          </div>
+
+          {/* Useful Links */}
+          <div>
+            <h3 className="font-semibold mb-3">Useful links</h3>
+            <ul className="text-gray-700 space-y-1 text-sm">
+              <li className="hover:text-black cursor-pointer">About us</li>
+              <li className="hover:text-black cursor-pointer">Contact us</li>
+              <li className="hover:text-black cursor-pointer">Gallery</li>
+              <li className="hover:text-black cursor-pointer">Blog</li>
+              <li className="hover:text-black cursor-pointer">F.A.Q</li>
+            </ul>
+          </div>
+        </div>
+
+        {/* 3️⃣ Email + Vehicles */}
+        <div className="flex flex-col gap-6">
+          {/* Email */}
+          <div className="flex items-start gap-3">
+            <div className="bg-yellow-500 p-2 rounded-full">
+              <Mail className="text-white" size={18} />
+            </div>
+            <div>
+              <p className="text-sm text-gray-600">Email</p>
+              <p className="font-semibold">nwiger@yahoo.com</p>
+            </div>
+          </div>
+
+          {/* Vehicles */}
+          <div>
+            <h3 className="font-semibold mb-3">Vehicles</h3>
+            <ul className="text-gray-700 space-y-1 text-sm">
+              <li className="hover:text-black cursor-pointer">Sedan</li>
+              <li className="hover:text-black cursor-pointer">Cabriolet</li>
+              <li className="hover:text-black cursor-pointer">Pickup</li>
+              <li className="hover:text-black cursor-pointer">Minivan</li>
+              <li className="hover:text-black cursor-pointer">SUV</li>
+            </ul>
+          </div>
+        </div>
+
+        {/* 4️⃣ Phone + Download App */}
+        <div className="flex flex-col gap-6">
+          {/* Phone */}
+          <div className="flex items-start gap-3">
+            <div className="bg-yellow-500 p-2 rounded-full">
+              <Phone className="text-white" size={18} />
+            </div>
+            <div>
+              <p className="text-sm text-gray-600">Phone</p>
+              <p className="font-semibold">+537 547-6401</p>
+            </div>
+          </div>
+
+          {/* Download App */}
+          <div>
+            <h3 className="font-semibold mb-3">Download App</h3>
+            <div className="flex flex-col gap-3">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Available_on_the_App_Store_%28black%29_SVG.svg"
+                alt="App Store"
+                className="w-36 cursor-pointer"
+              />
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+                alt="Google Play"
+                className="w-36 cursor-pointer"
+              />
+
+              <NavLink to='/admin'>
+                <button
+                  className="mt-4 md:mt-0 bg-[#5E17EB] hover:bg-[#4e0fd6] text-white font-semibold py-2 px-5 rounded-lg transition"
+                >
+                  Admin Panel
+                </button>
+              </NavLink>
+
             </div>
           </div>
         </div>
       </div>
 
-      {/* ===== Bottom copyright ===== */}
-      <div className="border-t border-gray-200 mt-6 py-4 text-center text-gray-500 text-xs">
+      {/* 🔹 Pastki qism */}
+      <div className="text-center text-gray-500 text-sm border-t border-gray-200 pt-6">
         © Copyright Car Rental 2024. Design by Figma.guru
       </div>
+
+
     </footer>
   );
-}
+};
+
+export default Footer;
