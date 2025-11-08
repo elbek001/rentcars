@@ -6,6 +6,7 @@ export default function ViewDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [car, setCar] = useState(null);
+  const [allCars, setAllCars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
 
@@ -14,6 +15,11 @@ export default function ViewDetail() {
       .then(res => res.json())
       .then(data => {
         setCar(data);
+        return fetch('https://zb-qhvz.onrender.com/api/cars');
+      })
+      .then(res => res.json())
+      .then(data => {
+        setAllCars(data);
         setLoading(false);
       })
       .catch(err => {
@@ -49,6 +55,20 @@ export default function ViewDetail() {
     );
   }
 
+  // Get selected category (from car or from localStorage)
+  const selectedCategory = car.category || localStorage.getItem('selectedCategory');
+
+  // Filter other cars in same category
+  const sameCategoryCars = allCars.filter(c => 
+    c.category === selectedCategory && c._id !== car._id
+  );
+
+  const handleCarClick = (carId, category) => {
+    localStorage.setItem('selectedCategory', category);
+    navigate(`/car/${carId}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
       <div className="max-w-6xl mx-auto">
@@ -73,7 +93,7 @@ export default function ViewDetail() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
           <div className="space-y-4">
             <div className="bg-white rounded-2xl shadow-sm p-6">
               <div className="rounded-xl p-8 flex items-center justify-center">
@@ -97,7 +117,7 @@ export default function ViewDetail() {
                         : 'hover:shadow-md'
                     }`}
                   >
-                    <div className=" rounded-lg p-3">
+                    <div className="rounded-lg p-3">
                       <img 
                         src={img} 
                         alt={`View ${idx + 1}`}
@@ -117,7 +137,7 @@ export default function ViewDetail() {
               <div className="grid grid-cols-2 gap-6">
                 <div>
                   <div className="flex items-center gap-2 text-gray-400 mb-2">
-                    <img className='w-[20px] h-[15px]' src={'test'} alt="" />
+                    <Gauge size={20} />
                     <span className="text-sm">Gear Box</span>
                   </div>
                   <p className="font-semibold text-gray-900">{car.gearBox}</p>
@@ -184,7 +204,61 @@ export default function ViewDetail() {
             </button>
           </div>
         </div>
+
+        {/* Other Cars - Same Category */}
+        {sameCategoryCars.length > 0 && (
+          <div>
+            <h2 className="text-2xl font-bold mb-6">Other {selectedCategory} Cars</h2>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {sameCategoryCars.slice(0, 8).map(otherCar => (
+                <div 
+                  key={otherCar._id}
+                  onClick={() => handleCarClick(otherCar._id, otherCar.category)}
+                  className="bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg transition-all cursor-pointer"
+                >
+                  <div className="bg-gray-100 rounded-xl p-6 mb-4 flex items-center justify-center">
+                    <img 
+                      src={otherCar.imageUrl}
+                      alt={otherCar.name}
+                      className="w-full h-24 object-contain"
+                    />
+                  </div>
+
+                  <h3 className="font-bold text-lg mb-1">{otherCar.name}</h3>
+                  <p className="text-sm text-gray-500 mb-3">{otherCar.category}</p>
+
+                  <div className="flex items-baseline gap-2 mb-4">
+                    <span className="text-xl font-bold text-purple-600">${otherCar.pricePerDay}</span>
+                    <span className="text-xs text-gray-500">per day</span>
+                  </div>
+
+                  <div className="flex items-center gap-4 text-xs text-gray-600 mb-4">
+                    <div className="flex items-center gap-1">
+                      <Gauge size={14} />
+                      <span>{otherCar.gearBox}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Droplet size={14} />
+                      <span>{otherCar.fuel}</span>
+                    </div>
+                    {otherCar.airConditioner && (
+                      <div className="flex items-center gap-1">
+                        <Wind size={14} />
+                        <span>AC</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <button className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2.5 rounded-xl transition-colors text-sm">
+                    View Details
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 }
+  
