@@ -213,6 +213,21 @@ export default function AboutUs() {
         </div>
       </div>
 
+            {openIndex === index && (
+              <div className="p-4 text-gray-500 border-t bg-gray-50 transition-all duration-300">
+                {faq.answer}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      <div className="pt-20 " >
+        <img src={s} alt="" />
+
+      </div>
+
+
+
     </section>
   );
 }

@@ -7,9 +7,13 @@ import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import Cars from "./pages/Cars"; // ✅ Bu sahifa bor
 import ViewDetail from "./ViewDetail";
+import Footer from "./components/Footer";
+import AdminLayout from "./admin/AdminLayout";
 
 function App() {
   return (
+
+
     <Router>
       <Navbar />
       <Routes>
@@ -20,8 +24,18 @@ function App() {
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/cars" element={<Cars />} /> {/* ✅ Shu qatorda qo‘shamiz */}
         <Route path="/details/:id" element={<ViewDetail />} />
+
+
+
+
+        <Route path="/admin" element={<AdminLayout />} />
       </Routes>
+
+      <Footer />
+
     </Router>
+
+
   );
 }
 
