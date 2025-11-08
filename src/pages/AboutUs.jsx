@@ -199,67 +199,7 @@ export default function AboutUs() {
         <img src={s} alt="" />
 
       </div>
-      <footer className="pt-20 gap-5  flex ">
-        <div className="">
-          <img src={a} alt="" />
-          <p className="w-[250px] pt-15   text-black  h-[120px]" >Faucibus faucibus pellentesque dictum turpis. Id pellentesque turpis massa a id iaculis lorem t...</p>
-          <img className="pt-10" src={w} alt="" />
-        </div>
 
-        <div className="">
-          <img src={m} alt="" />
-          <div className="w-[300px]  pt-5">
-
-            <h3 className="flex text-black text-xl justify-center">Useful links</h3>
-            <div className="flex pt-5 w-[280px]  justify-center">
-
-              <p  >About us <br />
-                Contact us <br />
-                Gallery <br />
-                Blog <br />
-                F.A.Q</p>
-            </div>
-
-
-          </div>
-
-        </div>
-        <div className="">
-          <img src={z} alt="" />
-          <div className="w-[250px]  pt-5">
-
-            <h3 className="flex text-black text-xl justify-center">Vehicles</h3>
-            <div className="flex pt-5 w-[250px]  justify-center">
-
-              <p  >
-                Sedan <br />
-                Cabriolet <br />
-                Pickup <br />
-                Minivan <br />
-                SUV
-              </p>
-            </div>
-
-
-          </div>
-
-        </div>
-
-
-        <div className="">
-          <img src={y} alt="" />
-          <div className="">
-            <div className="pt-5">
-              <h3 className="text-xl">Download App</h3>
-              <img className="pt-5" src={i} alt="" />
-              <img className="pt-5" src={o} alt="" />
-
-            </div>
-          </div>
-        </div>
-
-
-      </footer>
 
 
     </section>

@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, Mail, Phone, Clock, Facebook, Instagram, Twitter, Youtube, Car} from 'lucide-react';
-import img from '../assets/img.png'
-import img2 from '../assets/img2.png'
-import img3 from '../assets/img3.png'
-import img4 from '../assets/img4.png'
+import {
+  MapPin,
+  Mail,
+  Phone,
+  Clock,
+  Facebook,
+  Instagram,
+  Twitter,
+  Youtube,
+  Car
+} from 'lucide-react';
+import img from '../assets/ferari.jpg';
+import img2 from '../assets/img2.png';
+import img3 from '../assets/img3.png';
+import img4 from '../assets/img4.png';
 import Footer from '../components/Footer';
-
-
 
 export default function CarRentalContact() {
   const [formData, setFormData] = useState({
@@ -24,11 +32,21 @@ export default function CarRentalContact() {
   const [loadingCars, setLoadingCars] = useState(true);
 
   const uzbekRegions = [
-    'Toshkent', 'Samarqand', 'Buxoro', 'Farg\'ona', 'Andijon', 'Namangan',
-    'Qashqadaryo', 'Surxondaryo', 'Jizzax', 'Sirdaryo', 'Xorazm', 'Navoiy'
+    'Toshkent',
+    'Samarqand',
+    'Buxoro',
+    "Farg'ona",
+    'Andijon',
+    'Namangan',
+    'Qashqadaryo',
+    'Surxondaryo',
+    'Jizzax',
+    'Sirdaryo',
+    'Xorazm',
+    'Navoiy'
   ];
 
-  // Mashina turlarini yuklash
+  // Fetch car types
   useEffect(() => {
     const fetchCars = async () => {
       try {
@@ -54,7 +72,8 @@ export default function CarRentalContact() {
   };
 
   const handleSubmit = async () => {
-    const { carType, placeOfRental, placeOfReturn, rentalDate, returnDate, phoneNumber } = formData;
+    const { carType, placeOfRental, placeOfReturn, rentalDate, returnDate, phoneNumber } =
+      formData;
 
     if (!carType || !placeOfRental || !placeOfReturn || !rentalDate || !returnDate) {
       setMessage({ type: 'error', text: 'Iltimos, barcha maydonlarni to‘ldiring!' });
@@ -65,7 +84,7 @@ export default function CarRentalContact() {
     setMessage({ type: '', text: '' });
 
     try {
-      const response = await fetch('https://zb-qhvz.onrender.com/api/bookings', {
+      const response = await fetch('https://zb-qhvz.onrender.com/api/booking', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -74,7 +93,10 @@ export default function CarRentalContact() {
       const data = await response.json();
 
       if (response.ok) {
-        setMessage({ type: 'success', text: 'Buyurtma muvaffaqiyatli yuborildi! Tez orada siz bilan bog‘lanamiz.' });
+        setMessage({
+          type: 'success',
+          text: 'Buyurtma muvaffaqiyatli yuborildi! Tez orada siz bilan bog‘lanamiz.'
+        });
         setFormData({
           carType: '',
           placeOfRental: '',
@@ -88,7 +110,10 @@ export default function CarRentalContact() {
       }
     } catch (error) {
       console.error('Xatolik:', error);
-      setMessage({ type: 'error', text: 'Buyurtma yuborishda xatolik yuz berdi. Iltimos, qayta urinib ko‘ring.' });
+      setMessage({
+        type: 'error',
+        text: 'Buyurtma yuborishda xatolik yuz berdi. Iltimos, qayta urinib ko‘ring.'
+      });
     } finally {
       setLoading(false);
     }
@@ -119,14 +144,17 @@ export default function CarRentalContact() {
               <h2 className="text-2xl font-bold text-white mb-6">Book your car</h2>
 
               {message.text && (
-                <div className={`mb-4 p-3 rounded-lg ${
-                  message.type === 'success' ? 'bg-green-500' : 'bg-red-500'
-                } text-white text-sm`}>
+                <div
+                  className={`mb-4 p-3 rounded-lg ${
+                    message.type === 'success' ? 'bg-green-500' : 'bg-red-500'
+                  } text-white text-sm`}
+                >
                   {message.text}
                 </div>
               )}
 
               <div className="space-y-4">
+                {/* Car Type */}
                 <select
                   value={formData.carType}
                   onChange={(e) => handleChange('carType', e.target.value)}
@@ -143,6 +171,7 @@ export default function CarRentalContact() {
                   ))}
                 </select>
 
+                {/* Rental Places */}
                 <select
                   value={formData.placeOfRental}
                   onChange={(e) => handleChange('placeOfRental', e.target.value)}
@@ -150,7 +179,9 @@ export default function CarRentalContact() {
                 >
                   <option value="">Place of rental</option>
                   {uzbekRegions.map((region) => (
-                    <option key={region} value={region}>{region}</option>
+                    <option key={region} value={region}>
+                      {region}
+                    </option>
                   ))}
                 </select>
 
@@ -161,10 +192,13 @@ export default function CarRentalContact() {
                 >
                   <option value="">Place of return</option>
                   {uzbekRegions.map((region) => (
-                    <option key={region} value={region}>{region}</option>
+                    <option key={region} value={region}>
+                      {region}
+                    </option>
                   ))}
                 </select>
 
+                {/* Dates */}
                 <input
                   type="date"
                   value={formData.rentalDate}
@@ -175,22 +209,23 @@ export default function CarRentalContact() {
                 <input
                   type="date"
                   value={formData.returnDate}
-                  onChange={(e) => handleChange('re500turnDate', e.target.value)}
+                  onChange={(e) => handleChange('returnDate', e.target.value)} // ✅ fixed bug here
                   className="w-full px-4 py-3 rounded-lg bg-[#694BE3] text-white border-none focus:ring-2 focus:ring-white outline-none"
                 />
 
+                {/* Phone */}
                 <input
                   type="tel"
                   value={formData.phoneNumber}
                   onChange={(e) => handleChange('phoneNumber', e.target.value)}
                   placeholder="Your phone number"
-                  className="w-full px-4 py-3 rounded-lg  text-white bg-[#694BE3] placeholder-purple-200 border-none focus:ring-2 focus:ring-white outline-none"
+                  className="w-full px-4 py-3 rounded-lg text-white bg-[#694BE3] placeholder-purple-200 border-none focus:ring-2 focus:ring-white outline-none"
                 />
 
                 <button
                   onClick={handleSubmit}
                   disabled={loading}
-                  className={`w-full bg-[#FF9E0C] text-white font-semibold py-3 rounded-lg hover:from-orange-500 hover:to-orange-600 transition-all duration-200 shadow-lg ${
+                  className={`w-full bg-[#FF9E0C] text-white font-semibold py-3 rounded-lg hover:bg-orange-500 transition-all duration-200 shadow-lg ${
                     loading ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                 >
@@ -200,18 +235,17 @@ export default function CarRentalContact() {
             </div>
           </div>
 
-          {/* Contact Image/Map Area - SVG Placeholder */}
+          {/* Contact Image / Map */}
           <div className="lg:col-span-2">
-            <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl h-96 flex items-center justify-center shadow-lg overflow-hidden">
-              {/* (SVG Map Illustration omitted for brevity — keep your existing SVG here) */}
-            <img className='w-[10020px] h-[10000px]' src={img4} alt="" />
+            <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl h-[550px] flex items-center justify-center shadow-lg overflow-hidden">
+              <img className="object-cover w-full h-full" src={img} alt="Car rental map" />
             </div>
           </div>
         </div>
 
         {/* Contact Info Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 ">
-          <InfoCard  icon={<MapPin />} title="Address" text="Oxford Ave. Cary, NC 27511" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+          <InfoCard icon={<MapPin />} title="Address" text="Oxford Ave. Cary, NC 27511" />
           <InfoCard icon={<Mail />} title="Email" text="nwiger@yahoo.com" />
           <InfoCard icon={<Phone />} title="Phone" text="+537 547-6401" />
           <InfoCard icon={<Clock />} title="Opening hours" text="Sun-Mon: 10am - 10pm" />
@@ -219,16 +253,23 @@ export default function CarRentalContact() {
 
         {/* Blog Section */}
         <div className="mt-16">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">Latest blog posts & news</h2>
+          <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
+            Latest blog posts & news
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {blogPosts.map((post, i) => (
-              <div key={i} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow cursor-pointer">
+              <div
+                key={i}
+                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
+              >
                 <div className="bg-gradient-to-br from-gray-200 to-gray-300 h-48 flex items-center justify-center">
-                  <img src={img} alt="" />
+                  <img src={img} alt={post.title} className="object-cover h-full w-full" />
                 </div>
                 <div className="p-6">
                   <h3 className="font-bold text-lg text-gray-900 mb-2">{post.title}</h3>
-                  <p className="text-sm text-gray-500">{post.category} / {post.date}</p>
+                  <p className="text-sm text-gray-500">
+                    {post.category} / {post.date}
+                  </p>
                 </div>
               </div>
             ))}
@@ -236,13 +277,11 @@ export default function CarRentalContact() {
         </div>
       </div>
 
-      <Footer/>
     </div>
-
   );
 }
 
-// Small component for info cards
+// Info Card Component
 function InfoCard({ icon, title, text }) {
   return (
     <div className="flex items-center space-x-4 bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
