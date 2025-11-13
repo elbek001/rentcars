@@ -8,10 +8,29 @@ const Dashboard = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('https://zb-qhvz.onrender.com/api/income')
+    fetch('https://zb-qhvz.onrender.com/api/income/2025')
       .then(res => res.json())
       .then(data => {
-        const formattedData = Array.isArray(data) ? data : [data];
+        console.log('API javobi:', data);
+        
+        // incomesByMonth object'ni array'ga aylantirish
+        let formattedData = [];
+        if (data && data.incomesByMonth) {
+          formattedData = Object.keys(data.incomesByMonth).map(month => {
+            const incomeData = data.incomesByMonth[month];
+            // Agar array bo'lsa, birinchi elementni olish
+            const totalIncome = Array.isArray(incomeData) && incomeData.length > 0 
+              ? (incomeData[0].totalIncome || 0)
+              : 0;
+            
+            return {
+              month: month,
+              totalIncome: totalIncome
+            };
+          });
+        }
+        
+        console.log('Formatted data:', formattedData);
         setIncomes(formattedData);
         setLoading(false);
       })

@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import { Car, MapPin } from "lucide-react";
+import { Calendar, Car, Home, MapPin } from "lucide-react";
+import { GrBucket } from "react-icons/gr";
 
 
 
@@ -8,10 +9,13 @@ const AdminLayout = () => {
   return (
     <div className="min-h-screen flex bg-zinc-100">
       {/* Sidebar */}
-      <aside className="fixed left-0 top-10 h-[calc(100vh-5rem)] w-60 bg-gray-200 text-black flex flex-col p-4 shadow-md">
+      <aside className="fixed left-0 top-10 h-[calc(100vh-5rem)] w-60 bg-gray-200 text-black flex flex-col rounded-xl p-4 shadow-md">
         <h2 className="text-lg font-bold mb-6 text-center">Admin Panel</h2>
 
         <nav className="flex flex-col space-y-2 text-sm">
+
+
+            
           <NavLink
             to="/admin/home"
             className={({ isActive }) =>
@@ -20,7 +24,7 @@ const AdminLayout = () => {
               }`
             }
           >
-            <Car size={18} />
+            <Home size={18} />
             Home
           </NavLink>
 
@@ -46,6 +50,18 @@ const AdminLayout = () => {
           >
             <MapPin size={18} />
             Regions
+          </NavLink>
+
+          <NavLink
+            to="/admin/booking"
+            className={({ isActive }) =>
+              `flex items-center gap-2 p-2 rounded-lg hover:bg-zinc-400 transition ${
+                isActive ? "bg-zinc-300" : ""
+              }`
+            }
+          >
+            <Calendar size={18} />
+            booking
           </NavLink>
         </nav>
       </aside>

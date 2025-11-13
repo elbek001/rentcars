@@ -95,8 +95,8 @@ export default function CreateCar() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gray-50 p-6 mt-7 rounded-3xl ml-7  shadow-xl">
+      <div className="max-w-4xl mx-auto  ">
         {/* Шаги */}
         <div className="flex justify-between mb-10">
           {steps.map((step) => (

@@ -11,6 +11,7 @@ import RegionsPage from "./admin/RegionsPage";
 import Homepage from "./admin/Homepage";
 import ViewDetail from "./ViewDetail";
 import CarList from "./CarList";
+import BookingPages from "./admin/BookingPages";
 
 function AppContent() {
   const location = useLocation();
@@ -36,6 +37,7 @@ function AppContent() {
           <Route path="cars" element={<CarsPage />} />
           <Route path="regions" element={<RegionsPage />} />
           <Route path="home" element={<Homepage />} />
+          <Route path="booking" element={<BookingPages />} />
         </Route>
       </Routes>
 
