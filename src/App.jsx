@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -12,10 +12,16 @@ import Homepage from "./admin/Homepage";
 import ViewDetail from "./ViewDetail";
 import CarList from "./CarList";
 
-function App() {
+function AppContent() {
+  const location = useLocation();
+
+  // Agar URL "/admin" bilan boshlansa footer ko‘rinmasin
+  const isAdminRoute = location.pathname.startsWith("/admin");
+
   return (
-    <Router>
-      <Navbar />
+    <>
+      {!isAdminRoute && <Navbar />}
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/vehicles" element={<Vehicles />} />
@@ -24,8 +30,6 @@ function App() {
         <Route path="/details/:id" element={<ViewDetail />} />
         <Route path="/allCars" element={<CarList />} />
 
-
-
         {/* Admin panel routes */}
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Homepage />} />
@@ -33,9 +37,17 @@ function App() {
           <Route path="regions" element={<RegionsPage />} />
           <Route path="home" element={<Homepage />} />
         </Route>
-
       </Routes>
-      <Footer />
+
+      {!isAdminRoute && <Footer />}
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }
