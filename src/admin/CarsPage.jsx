@@ -1,17 +1,16 @@
 import React, { useState } from "react";
-import { ChevronDown } from "lucide-react";
 
 export default function CreateCar() {
   const [currentStep, setCurrentStep] = useState(1);
 
   const [formData, setFormData] = useState({
     name: "",
+    brand: "",
     year: "",
     engine: "2.0",
     category: "suv",
     description: "",
-    image: "",
-    website: "",
+    imageUrl: "",
     price: "",
   });
 
@@ -21,63 +20,67 @@ export default function CreateCar() {
   const steps = [
     { num: 1, title: "Информация" },
     { num: 2, title: "Фото" },
-    { num: 3, title: "Ссылки" },
+    { num: 3, title: "Марка" },
     { num: 4, title: "Цена" },
   ];
 
-  // ✅ Обработчик изменения формы
+  // Обновление данных формы
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((p) => ({ ...p, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // ✅ Следующий шаг
+  // Следующий шаг
   const handleNext = () => {
     if (currentStep < 4) setCurrentStep(currentStep + 1);
   };
 
-  // ✅ Назад
+  // Назад
   const handleBack = () => {
     if (currentStep > 1) setCurrentStep(currentStep - 1);
   };
 
-  // ✅ Отправка формы
+  // Отправка формы
   const handleSubmit = async () => {
     setLoading(true);
     setMessage("");
 
+    if (!formData.name || !formData.year || !formData.imageUrl || !formData.price) {
+      setMessage("❌ Пожалуйста, заполните все обязательные поля");
+      setLoading(false);
+      return;
+    }
+
     try {
+      const payload = {
+        name: formData.name,
+        brand: formData.brand,
+        year: formData.year,
+        engine: formData.engine,
+        category: formData.category,
+        description: formData.description,
+        imageUrl: formData.imageUrl,
+        pricePerDay: Number(formData.price),
+      };
+
       const response = await fetch("https://zb-qhvz.onrender.com/api/cars", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          year: formData.year,
-          engine: formData.engine,
-          category: formData.category,
-          description: formData.description,
-          image: formData.image,
-          website: formData.website,
-          price: formData.price,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
 
       if (response.ok) {
         setMessage("✅ Автомобиль успешно создан!");
-
-        // Сброс формы
         setFormData({
           name: "",
+          brand: "",
           year: "",
           engine: "2.0",
           category: "suv",
           description: "",
-          image: "",
-          website: "",
+          imageUrl: "",
           price: "",
         });
         setCurrentStep(1);
@@ -94,7 +97,6 @@ export default function CreateCar() {
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-4xl mx-auto">
-
         {/* Шаги */}
         <div className="flex justify-between mb-10">
           {steps.map((step) => (
@@ -121,15 +123,14 @@ export default function CreateCar() {
           ))}
         </div>
 
+        {/* Основная форма */}
         <div className="bg-white shadow p-8 rounded-xl">
-          {/* ==================== ШАГ 1 ==================== */}
+          {/* ШАГ 1 */}
           {currentStep === 1 && (
             <div className="space-y-6">
               <div className="grid grid-cols-2 gap-6">
                 <div>
-                  <label className="block mb-2 text-sm font-medium">
-                    Название авто
-                  </label>
+                  <label className="block mb-2 text-sm font-medium">Название авто</label>
                   <input
                     type="text"
                     name="name"
@@ -139,11 +140,8 @@ export default function CreateCar() {
                     className="w-full p-2 border rounded-lg bg-gray-50"
                   />
                 </div>
-
                 <div>
-                  <label className="block mb-2 text-sm font-medium">
-                    Год выпуска
-                  </label>
+                  <label className="block mb-2 text-sm font-medium">Год выпуска</label>
                   <input
                     type="text"
                     name="year"
@@ -157,25 +155,20 @@ export default function CreateCar() {
 
               <div className="grid grid-cols-2 gap-6">
                 <div>
-                  <label className="block mb-2 text-sm font-medium">
-                    Двигатель
-                  </label>
+                  <label className="block mb-2 text-sm font-medium">Двигатель</label>
                   <select
                     name="engine"
                     value={formData.engine}
                     onChange={handleInputChange}
                     className="w-full p-2 border rounded-lg bg-gray-50"
                   >
-                    <option>1.6</option>
-                    <option>2.0</option>
-                    <option>2.5</option>
-                    <option>3.5</option>
+                    {Array.from({ length: 80 }, (_, i) => (0.6 + i * 0.1).toFixed(1)).map((val) => (
+                      <option key={val}>{val}</option>
+                    ))}
                   </select>
                 </div>
                 <div>
-                  <label className="block mb-2 text-sm font-medium">
-                    Категория
-                  </label>
+                  <label className="block mb-2 text-sm font-medium">Категория</label>
                   <select
                     name="category"
                     value={formData.category}
@@ -191,9 +184,7 @@ export default function CreateCar() {
               </div>
 
               <div>
-                <label className="block mb-2 text-sm font-medium">
-                  Описание
-                </label>
+                <label className="block mb-2 text-sm font-medium">Описание</label>
                 <textarea
                   name="description"
                   value={formData.description}
@@ -206,24 +197,21 @@ export default function CreateCar() {
             </div>
           )}
 
-          {/* ==================== ШАГ 2 ==================== */}
+          {/* ШАГ 2 */}
           {currentStep === 2 && (
             <div className="space-y-6">
-              <label className="block mb-2 text-sm font-medium">
-                Фото автомобиля (URL)
-              </label>
+              <label className="block mb-2 text-sm font-medium">Фото автомобиля (URL)</label>
               <input
                 type="text"
-                name="image"
-                value={formData.image}
+                name="imageUrl"
+                value={formData.imageUrl}
                 onChange={handleInputChange}
                 placeholder="https://example.com/car.jpg"
                 className="w-full p-2 border rounded-lg bg-gray-50"
               />
-
-              {formData.image && (
+              {formData.imageUrl && (
                 <img
-                  src={formData.image}
+                  src={formData.imageUrl}
                   alt="preview"
                   className="w-64 h-40 object-cover rounded-lg mt-4 border"
                 />
@@ -231,35 +219,38 @@ export default function CreateCar() {
             </div>
           )}
 
-          {/* ==================== ШАГ 3 ==================== */}
+          {/* ШАГ 3 — МАРКА */}
           {currentStep === 3 && (
             <div className="space-y-6">
-              <label className="block mb-2 text-sm font-medium">
-                Сайт / ссылка
-              </label>
+              <label className="block mb-2 text-sm font-medium">Марка автомобиля</label>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {formData.brand && (
+                  <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full font-medium">
+                    {formData.brand}
+                  </span>
+                )}
+              </div>
               <input
                 type="text"
-                name="website"
-                value={formData.website}
+                name="brand"
+                value={formData.brand}
                 onChange={handleInputChange}
-                placeholder="https://toyota.com"
+                placeholder="Например: BMW, Toyota, Audi"
                 className="w-full p-2 border rounded-lg bg-gray-50"
               />
             </div>
           )}
 
-          {/* ==================== ШАГ 4 ==================== */}
+          {/* ШАГ 4 */}
           {currentStep === 4 && (
             <div className="space-y-6">
-              <label className="block mb-2 text-sm font-medium">
-                Цена $
-              </label>
+              <label className="block mb-2 text-sm font-medium">Цена (в $/день)</label>
               <input
                 type="text"
                 name="price"
                 value={formData.price}
                 onChange={handleInputChange}
-                placeholder="35000"
+                placeholder="45"
                 className="w-full p-2 border rounded-lg bg-gray-50"
               />
             </div>
@@ -278,7 +269,7 @@ export default function CreateCar() {
             </div>
           )}
 
-          {/* КНОПКИ */}
+          {/* Кнопки */}
           <div className="flex justify-between mt-10">
             <button
               onClick={handleBack}

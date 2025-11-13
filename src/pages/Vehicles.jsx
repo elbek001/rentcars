@@ -202,7 +202,7 @@
       <section className="bg-white border-t border-gray-200 mt-16">
         <div className="max-w-7xl mx-auto px-6 py-12">
           {/* ===== Top Brand Logos ===== */}
-      <div className="max-w-6xl mx-auto flex flex-wrap justify-center items-center gap-20                                py-10 rounded-2xl bg-gray-50">
+      <div className="max-w-6xl mx-auto flex flex-wrap justify-center items-center gap-20 py-10 rounded-2xl bg-gray-50">
         {["toyota", "ford", "mercedes", "jeep", "bmw", "audi"].map((brand) => (
           <div key={brand} className="w-20 opacity-90">
             <img
