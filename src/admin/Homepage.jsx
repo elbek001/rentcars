@@ -54,7 +54,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen to-gray-100 p-6">
+    <div className="min-h-screen to-gray-100 p-6 ">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Top Section - Income Bar Chart */}
         <div className="bg-white rounded-3xl shadow-lg p-8">

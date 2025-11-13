@@ -9,6 +9,8 @@ import AdminLayout from "./admin/AdminLayout";
 import CarsPage from "./admin/CarsPage";
 import RegionsPage from "./admin/RegionsPage";
 import Homepage from "./admin/Homepage";
+import ViewDetail from "./ViewDetail";
+import CarList from "./CarList";
 
 function App() {
   return (
@@ -19,13 +21,19 @@ function App() {
         <Route path="/vehicles" element={<Vehicles />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
+        <Route path="/details/:id" element={<ViewDetail />} />
+        <Route path="/allCars" element={<CarList />} />
+
+
 
         {/* Admin panel routes */}
         <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Homepage />} />
           <Route path="cars" element={<CarsPage />} />
           <Route path="regions" element={<RegionsPage />} />
           <Route path="home" element={<Homepage />} />
         </Route>
+
       </Routes>
       <Footer />
     </Router>

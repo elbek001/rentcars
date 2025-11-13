@@ -13,10 +13,17 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="flex justify-between items-center px-10 py-4 mx-10 ">
+    <nav
+      className="
+        fixed top-0 left-0 w-full z-50 
+        flex justify-between items-center 
+        px-17 py-6 bg-white
+        backdrop-blur-md
+      "
+    >
       {/* Left - Logo */}
       <div className="flex items-center gap-2">
-        <img src="../src/assets/Logo.png" alt="logo" className="w- h-10" />
+        <img src="../src/assets/Logo.png" alt="logo" className="w-auto h-10" />
       </div>
 
       {/* Middle - Links */}
@@ -27,7 +34,7 @@ const Navbar = () => {
               to={item.path}
               className={`${
                 location.pathname === item.path
-                  ? "font-semibold text-black"
+                  ? "font-semibold text-black border-b-2 border-purple-600 pb-1"
                   : "text-gray-600 hover:text-black"
               }`}
             >

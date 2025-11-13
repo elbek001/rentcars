@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Settings, Droplet, Wind } from 'lucide-react';
+import { Droplet, Gauge, Wind } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import gearbox from '../assets/gearbox.svg'
 
 export default function CarList() {
+  const navigate = useNavigate();
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetch('https://zb-qhvz.onrender.com/api/cars')
@@ -20,6 +19,14 @@ export default function CarList() {
         setLoading(false);
       });
   }, []);
+
+  const handleViewDetails = (carId, category) => {
+    // Save selected category to localStorage
+    localStorage.setItem('selectedCategory', category);
+
+    // Navigate to detail page
+    navigate(`/car/${carId}`);
+  };
 
   if (loading) {
     return (
@@ -35,57 +42,65 @@ export default function CarList() {
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">Available Cars</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">Available Cars</h1>
+          <p className="text-gray-600">Choose your perfect ride from our collection</p>
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {cars.map(car => (
-            <div key={car.id} className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="p-6">
-                <div className=" rounded-xl p-6 mb-4">
-                  <img 
-                    src={car.imageUrl} 
-                    alt={car.name}
-                    className="w-full h-32 object-contain"
-                  />
-                </div>
-                
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="font-bold text-lg text-gray-900">{car.brand}</h3>
-                    <p className="text-gray-500 text-sm">{car.category}</p>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-xl font-bold text-purple-600">${car.pricePerDay}</div>
-                    <div className="text-xs text-gray-500">per day</div>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4 mb-4 text-xs text-gray-600">
-                  <div className="flex items-center gap-1">
-                    <img className='w-[20px] h-[15.220338821411133px]' src={gearbox} alt="" />
-                    <span>{car.gearBox}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Droplet size={14} />
-                    <span>{car.fuel}</span>
-                  </div>
-                  {car.airConditioner && (
-                    <div className="flex items-center gap-1">
-                      <Wind size={14} />
-                      <span>AC</span>
-                    </div>
-                  )}
-                </div>
-
-                <button 
-                  onClick={() => navigate(`/view-detail/${car._id}`)}
-                  className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-xl transition-colors"
-                >
-                  View Details
-                </button>
+            <div 
+              key={car._id}
+              className="bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg transition-all"
+            >
+              <div className="bg-gray-100 rounded-xl p-6 mb-4 flex items-center justify-center">
+                <img 
+                  src={car.imageUrl}
+                  alt={car.name}
+                  className="w-full h-24 object-contain"
+                />
               </div>
+
+              <h3 className="font-bold text-lg mb-1">{car.name}</h3>
+              <p className="text-sm text-gray-500 mb-3">{car.category}</p>
+
+              <div className="flex items-baseline gap-2 mb-4">
+                <span className="text-xl font-bold text-purple-600">${car.pricePerDay}</span>
+                <span className="text-xs text-gray-500">per day</span>
+              </div>
+
+              <div className="flex items-center gap-4 text-xs text-gray-600 mb-4">
+                <div className="flex items-center gap-1">
+                  <Gauge size={14} />
+                  <span>{car.gearBox}</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Droplet size={14} />
+                  <span>{car.fuel}</span>
+                </div>
+                {car.airConditioner && (
+                  <div className="flex items-center gap-1">
+                    <Wind size={14} />
+                    <span>AC</span>
+                  </div>
+                )}
+              </div>
+
+              <button 
+                onClick={() => handleViewDetails(car._id, car.category)}
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2.5 rounded-xl transition-colors text-sm"
+              >
+                View Details
+              </button>
             </div>
           ))}
         </div>
+
+        {cars.length === 0 && !loading && (
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg">No cars available at the moment</p>
+          </div>
+        )}
       </div>
     </div>
   );

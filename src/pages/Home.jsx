@@ -9,7 +9,7 @@ import {
   Calendar,
   GaugeCircle,
 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [form, setForm] = useState({
@@ -93,6 +93,9 @@ const Home = () => {
 
   return (
     <div>
+      <br />
+      <br />
+      
       {/* HERO SECTION */}
       <section
         className="relative rounded-3xl overflow-hidden text-white p-10 flex flex-col md:flex-row items-center justify-between mt-10 mx-17"
@@ -209,12 +212,12 @@ const Home = () => {
           <h2 className="text-4xl mx-6 font-bold text-gray-900">
             Choose the car that <br /> suits you
           </h2>
-          <Link
-            to="/cars"
+          <NavLink
+            to="/allCars"
             className="text-sm font-semibold text-gray-700 hover:text-black flex items-center gap-1 mx-10"
           >
             View ALL →
-          </Link>
+          </NavLink>
         </div>
 
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-10 justify-center">
