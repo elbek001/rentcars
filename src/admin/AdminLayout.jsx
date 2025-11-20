@@ -61,7 +61,19 @@ const AdminLayout = () => {
             }
           >
             <Calendar size={18} />
-            booking
+            Booking
+          </NavLink>
+
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `flex items-center gap-2 p-2 rounded-lg hover:bg-zinc-400 transition ${
+                isActive ? "bg-zinc-300" : ""
+              }`
+            }
+          >
+            <Home size={18} />
+            Ortga qaytish  
           </NavLink>
         </nav>
       </aside>
