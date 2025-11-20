@@ -12,6 +12,7 @@ import Homepage from "./admin/Homepage";
 import ViewDetail from "./ViewDetail";
 import CarList from "./CarList";
 import BookingPages from "./admin/BookingPages";
+import CarDetailsPage from "./pages/Details";
 
 function AppContent() {
   const location = useLocation();
@@ -30,8 +31,9 @@ function AppContent() {
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/details/:id" element={<ViewDetail />} />
         <Route path="/allCars" element={<CarList />} />
+        <Route path="/details" element={<CarDetailsPage/>} />
 
-        {/* Admin panel routes */}
+
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Homepage />} />
           <Route path="cars" element={<CarsPage />} />

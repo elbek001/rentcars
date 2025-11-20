@@ -6,6 +6,7 @@ export default function CarList() {
   const navigate = useNavigate();
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedBrand, setSelectedBrand] = useState('All');
 
   useEffect(() => {
     fetch('https://zb-qhvz.onrender.com/api/cars')
@@ -20,13 +21,17 @@ export default function CarList() {
       });
   }, []);
 
-  const handleViewDetails = (carId, category) => {
-    // Save selected category to localStorage
+  const handleViewDetails = (carId, brand, category) => {
+    localStorage.setItem('selectedBrand', brand);
     localStorage.setItem('selectedCategory', category);
-
-    // Navigate to detail page
     navigate(`/car/${carId}`);
   };
+
+  const brands = ['All', ...new Set(cars.map(car => car.brand))];
+
+  const filteredCars = selectedBrand === 'All'
+    ? cars
+    : cars.filter(car => car.brand === selectedBrand);
 
   if (loading) {
     return (
@@ -47,14 +52,32 @@ export default function CarList() {
           <p className="text-gray-600">Choose your perfect ride from our collection</p>
         </div>
 
+        {/* Brand Filter */}
+        <div className="mb-6 flex flex-wrap gap-3">
+          {brands.map(brand => (
+            <button
+              key={brand}
+              onClick={() => setSelectedBrand(brand)}
+              className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
+                selectedBrand === brand
+                  ? 'bg-purple-600 text-white'
+                  : 'bg-gray-200 text-gray-700 hover:bg-purple-100'
+              }`}
+            >
+              {brand}
+            </button>
+          ))}
+        </div>
+
+        {/* Cars Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {cars.map(car => (
-            <div 
+          {filteredCars.map(car => (
+            <div
               key={car._id}
               className="bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg transition-all"
             >
               <div className="bg-gray-100 rounded-xl p-6 mb-4 flex items-center justify-center">
-                <img 
+                <img
                   src={car.imageUrl}
                   alt={car.name}
                   className="w-full h-24 object-contain"
@@ -86,8 +109,8 @@ export default function CarList() {
                 )}
               </div>
 
-              <button 
-                onClick={() => handleViewDetails(car._id, car.category)}
+              <button
+                onClick={() => handleViewDetails(car._id, car.brand, car.category)}
                 className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2.5 rounded-xl transition-colors text-sm"
               >
                 View Details
@@ -96,9 +119,9 @@ export default function CarList() {
           ))}
         </div>
 
-        {cars.length === 0 && !loading && (
+        {filteredCars.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">No cars available at the moment</p>
+            <p className="text-gray-500 text-lg">No cars available for this brand</p>
           </div>
         )}
       </div>
