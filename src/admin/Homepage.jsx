@@ -11,40 +11,28 @@ const Dashboard = () => {
     fetch('https://zb-qhvz.onrender.com/api/income/2025')
       .then(res => res.json())
       .then(data => {
-        console.log('API javobi:', data);
-        
-        // incomesByMonth object'ni array'ga aylantirish
         let formattedData = [];
         if (data && data.incomesByMonth) {
           formattedData = Object.keys(data.incomesByMonth).map(month => {
             const incomeData = data.incomesByMonth[month];
-            // Agar array bo'lsa, birinchi elementni olish
             const totalIncome = Array.isArray(incomeData) && incomeData.length > 0 
               ? (incomeData[0].totalIncome || 0)
               : 0;
-            
-            return {
-              month: month,
-              totalIncome: totalIncome
-            };
+            return { month, totalIncome };
           });
         }
-        
-        console.log('Formatted data:', formattedData);
         setIncomes(formattedData);
         setLoading(false);
       })
       .catch(err => {
-        console.error('Error fetching income data:', err);
         setError(err.message);
         setLoading(false);
       });
   }, []);
 
-  // Calculate stats from income data
   const totalIncome = incomes.reduce((sum, item) => sum + (item.totalIncome || 0), 0);
-  const avgIncome = incomes.length > 0 ? Math.round(totalIncome / incomes.length) : 0;
-  const maxIncome = Math.max(...incomes.map(item => item.totalIncome || 0));
+  const avgIncome = incomes.length ? Math.round(totalIncome / incomes.length) : 0;
+  const maxIncome = Math.max(...incomes.map(i => i.totalIncome || 0));
   const months = incomes.length;
 
   const stats = [
@@ -54,42 +42,31 @@ const Dashboard = () => {
     { icon: Package, label: 'Months', value: months.toString(), color: 'text-blue-600' },
   ];
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
-        <div className="text-xl text-gray-600">Loading...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-          Error: {error}
-        </div>
-      </div>
-    );
-  }
+  if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  if (error)   return <div className="p-6 text-red-600">{error}</div>;
 
   return (
-    <div className="min-h-screen to-gray-100 p-6 ">
+    <div className="min-h-screen p-4 md:p-6 bg-gray-100">
       <div className="max-w-7xl mx-auto space-y-6">
-        {/* Top Section - Income Bar Chart */}
-        <div className="bg-white rounded-3xl shadow-lg p-8">
-          <div className="flex flex-col lg:flex-row gap-8">
-            {/* Left Side - Summary */}
-            <div className="lg:w-1/3 space-y-4">
-              <h2 className="text-sm text-gray-600 font-medium">Monthly Income Overview</h2>
-              <div className="text-6xl font-bold text-purple-600">
+
+        {/* TOP SECTION */}
+        <div className="bg-white rounded-3xl shadow-lg p-4 sm:p-6 md:p-8">
+          <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+
+            {/* LEFT SIDE - SUMMARY */}
+            <div className="lg:w-1/3 space-y-3 sm:space-y-4">
+              <h2 className="text-xs sm:text-sm text-gray-600 font-medium">Monthly Income Overview</h2>
+
+              <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-purple-600">
                 {(totalIncome / 1000000).toFixed(0)}M
               </div>
-              <div className="flex items-center gap-2 text-sm text-gray-500">
+
+              <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
                 <DollarSign className="w-4 h-4" />
                 <span>Total yearly income</span>
               </div>
-              {/* Mini trend line */}
-              <svg className="w-full h-16" viewBox="0 0 200 60">
+
+              <svg className="w-full h-14 sm:h-16" viewBox="0 0 200 60">
                 <path
                   d="M 0 40 Q 25 35, 50 30 T 100 20 T 150 25 T 200 15"
                   fill="none"
@@ -97,58 +74,52 @@ const Dashboard = () => {
                   strokeWidth="2"
                 />
               </svg>
-              <p className="text-xs text-gray-500">Income growing steadily month by month</p>
+
+              <p className="text-[10px] sm:text-xs text-gray-500">
+                Income growing steadily month by month
+              </p>
             </div>
 
-            {/* Right Side - Bar Chart */}
-            <div className="lg:w-2/3 bg-gradient-to-br from-purple-500 to-purple-700 rounded-2xl p-6">
-              <ResponsiveContainer width="100%" height={200}>
+            {/* RIGHT SIDE - BAR CHART */}
+            <div className="lg:w-2/3 bg-gradient-to-br from-purple-500 to-purple-700 rounded-2xl p-3 sm:p-4 md:p-6">
+              <ResponsiveContainer width="100%" height={180}>
                 <BarChart data={incomes}>
                   <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: 'rgba(255, 255, 255, 0.95)', 
-                      border: 'none', 
-                      borderRadius: '8px',
-                      boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-                    }}
-                    formatter={(value) => `${(value / 1000000).toFixed(1)}M so'm`}
+                    contentStyle={{ backgroundColor: 'white', borderRadius: '8px' }}
+                    formatter={(v) => `${(v / 1000000).toFixed(1)}M so'm`}
                   />
-                  <Bar 
-                    dataKey="totalIncome" 
-                    fill="rgba(255, 255, 255, 0.4)" 
-                    radius={[8, 8, 0, 0]} 
-                  />
+                  <Bar dataKey="totalIncome" fill="rgba(255,255,255,0.5)" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
           </div>
 
-          {/* Stats Cards */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
-            {stats.map((stat, index) => (
-              <div key={index} className="p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors">
-                <div className="flex items-center gap-2 mb-2">
-                  <stat.icon className={`w-5 h-5 ${stat.color}`} />
-                  <span className="text-sm text-gray-600">{stat.label}</span>
+          {/* STAT CARDS - MOBILE FRIENDLY */}
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-6">
+            {stats.map((s, i) => (
+              <div key={i} className="p-3 sm:p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition">
+                <div className="flex items-center gap-2 mb-1 sm:mb-2">
+                  <s.icon className={`w-4 h-4 sm:w-5 sm:h-5 ${s.color}`} />
+                  <span className="text-xs sm:text-sm text-gray-600">{s.label}</span>
                 </div>
-                <div className="text-3xl font-bold text-gray-800">{stat.value}</div>
+                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">{s.value}</div>
                 <div className="h-1 bg-gradient-to-r from-purple-500 to-transparent rounded-full mt-2"></div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Bottom Section - Income Line Chart */}
-        <div className="bg-white rounded-3xl shadow-lg p-8">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-gray-800">Monthly Income Trend</h2>
+        {/* BOTTOM SECTION - LINE CHART */}
+        <div className="bg-white rounded-3xl shadow-lg p-4 sm:p-6 md:p-8">
+          <div className="flex items-center justify-between mb-4 sm:mb-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-800">Monthly Income Trend</h2>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-purple-600"></div>
-              <span className="text-sm text-gray-600">Income (Million so'm)</span>
+              <span className="text-xs sm:text-sm text-gray-600">Income (M so'm)</span>
             </div>
           </div>
-          
-          <ResponsiveContainer width="100%" height={350}>
+
+          <ResponsiveContainer width="100%" height={260}>
             <AreaChart data={incomes}>
               <defs>
                 <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
@@ -156,29 +127,32 @@ const Dashboard = () => {
                   <stop offset="95%" stopColor="#9333ea" stopOpacity={0}/>
                 </linearGradient>
               </defs>
+
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+
               <XAxis 
-                dataKey="month" 
+                dataKey="month"
                 stroke="#9ca3af"
-                tick={{ fill: '#6b7280', fontSize: 12 }}
-                angle={-45}
-                textAnchor="end"
-                height={80}
+                tick={{ fill: '#6b7280', fontSize: 10 }}
+                angle={-40}
+                height={50}
               />
+
               <YAxis 
                 stroke="#9ca3af"
-                tick={{ fill: '#6b7280' }}
-                tickFormatter={(value) => `${(value / 1000000).toFixed(0)}M`}
+                tick={{ fill: '#6b7280', fontSize: 11 }}
+                tickFormatter={(v) => `${(v / 1000000).toFixed(0)}M`}
               />
+
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: 'white', 
-                  border: 'none', 
                   borderRadius: '12px',
                   boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
                 }}
-                formatter={(value) => [`${(value / 1000000).toFixed(1)}M so'm`, 'Income']}
+                formatter={(v) => [`${(v / 1000000).toFixed(1)}M so'm`, 'Income']}
               />
+
               <Area 
                 type="monotone" 
                 dataKey="totalIncome" 
@@ -189,6 +163,7 @@ const Dashboard = () => {
             </AreaChart>
           </ResponsiveContainer>
         </div>
+
       </div>
     </div>
   );
