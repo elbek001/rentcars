@@ -81,7 +81,7 @@ const Home = () => {
     try {
       setLoadingBooking(true);
 
-      // 1️⃣ Create booking
+      // Create booking
       await axios.post("https://zb-qhvz.onrender.com/api/booking", {
         carType,
         placeOfRental,
@@ -91,7 +91,7 @@ const Home = () => {
         phoneNumber,
       });
 
-      // 2️⃣ Update or create income
+      // Check income record
       let income = null;
       try {
         const res = await axios.get(`https://zb-qhvz.onrender.com/api/income/${year}/${month}/${day}`);
@@ -135,16 +135,17 @@ const Home = () => {
 
   return (
     <div>
-      {/* HERO + Booking */}
+
+      {/* HERO SECTION */}
       <section
-        className="relative rounded-3xl overflow-hidden text-white p-10 flex flex-col md:flex-row items-center justify-between mt-10 mx-16"
+        className="relative rounded-3xl overflow-hidden text-white p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between mt-10 mx-4 sm:mx-10 md:mx-16"
         style={{ background: "linear-gradient(135deg, #4e54c8, #8f94fb)" }}
       >
-        <div className="max-w-lg md:w-1/2">
-          <h1 className="text-4xl font-bold leading-tight mb-4">
+        <div className="max-w-lg md:w-1/2 text-center md:text-left">
+          <h1 className="text-3xl sm:text-4xl font-bold leading-tight mb-4">
             Experience the road <br /> like never before
           </h1>
-          <p className="text-white/80 mb-6">
+          <p className="text-white/80 mb-6 text-sm sm:text-base">
             Aliquam adipiscing velit semper morbi. Purus non eu cursus porttitor tristique et gravida.
           </p>
           <button
@@ -155,10 +156,12 @@ const Home = () => {
           </button>
         </div>
 
-        {/* Booking Form */}
-        <div className="bg-white text-black rounded-2xl shadow-lg p-6 w-full max-w-sm mt-8 md:mt-0">
+        {/* BOOKING FORM */}
+        <div className="bg-white text-black rounded-2xl shadow-lg p-6 w-full max-w-md mt-8 md:mt-0">
           <h2 className="text-2xl font-semibold text-center mb-5">Book your car</h2>
           <div className="space-y-4">
+
+            {/* Car select */}
             <select
               value={form.carType}
               onChange={(e) => handleChange("carType", e.target.value)}
@@ -166,12 +169,11 @@ const Home = () => {
             >
               <option value="">{cars.length === 0 ? "Loading..." : "Car type"}</option>
               {cars.map((car) => (
-                <option key={car._id} value={car._id}>
-                  {car.name}
-                </option>
+                <option key={car._id} value={car._id}>{car.name}</option>
               ))}
             </select>
 
+            {/* Region selections */}
             <select
               value={form.placeOfRental}
               onChange={(e) => handleChange("placeOfRental", e.target.value)}
@@ -179,9 +181,7 @@ const Home = () => {
             >
               <option value="">{regions.length === 0 ? "Loading..." : "Place of rental"}</option>
               {regions.map((region) => (
-                <option key={region._id} value={region.name}>
-                  {region.name}
-                </option>
+                <option key={region._id} value={region.name}>{region.name}</option>
               ))}
             </select>
 
@@ -192,12 +192,11 @@ const Home = () => {
             >
               <option value="">{regions.length === 0 ? "Loading..." : "Place of return"}</option>
               {regions.map((region) => (
-                <option key={region._id} value={region.name}>
-                  {region.name}
-                </option>
+                <option key={region._id} value={region.name}>{region.name}</option>
               ))}
             </select>
 
+            {/* Dates */}
             <input
               type="date"
               value={form.rentalDate}
@@ -212,6 +211,7 @@ const Home = () => {
               className="w-full bg-gray-100 rounded-lg p-3"
             />
 
+            {/* Phone */}
             <input
               type="tel"
               placeholder="+998901234567"
@@ -220,6 +220,7 @@ const Home = () => {
               className="w-full bg-gray-100 rounded-lg p-3"
             />
 
+            {/* Submit */}
             <button
               onClick={handleBooking}
               disabled={loadingBooking}
@@ -231,25 +232,23 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Cars Section */}
-      <section className="px-6 md:px-12 py-20 bg-white">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-4xl mx-6 font-bold text-gray-900">
+      {/* CARS SECTION */}
+      <section className="px-4 sm:px-8 md:px-12 py-20 bg-white">
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4 sm:gap-0">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 text-center sm:text-left">
             Choose the car that <br /> suits you
           </h2>
-          <Link
-            to="/cars"
-            className="text-sm font-semibold text-gray-700 hover:text-black flex items-center gap-1 mx-10"
-          >
+          <Link to="/cars" className="text-sm font-semibold text-gray-700 hover:text-black">
             View ALL →
           </Link>
         </div>
 
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-10 justify-center">
+        {/* Cars grid */}
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-10 justify-center">
           {visibleCars.map((car) => (
             <div
               key={car._id}
-              className="rounded-2xl bg-slate-100 hover:shadow-lg transition-all duration-300 w-[400px] mx-auto p-5 flex flex-col"
+              className="rounded-2xl bg-slate-100 hover:shadow-lg transition-all duration-300 w-full max-w-sm mx-auto p-5 flex flex-col"
             >
               <div className="flex justify-center mb-3">
                 <img
@@ -270,6 +269,7 @@ const Home = () => {
                 </div>
               </div>
 
+              {/* Features */}
               <div className="flex justify-between text-gray-600 text-sm mt-4">
                 <div className="flex items-center gap-1">
                   <Gauge size={15} /> {car.gearBox}
