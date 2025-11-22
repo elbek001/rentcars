@@ -12,7 +12,7 @@ export default function EditProduct() {
         {/* Product Information */}
         <div className="bg-white rounded-2xl shadow p-8">
           <h2 className="text-lg font-semibold mb-6 text-gray-700">
-            Product Information
+            Car Information
           </h2>
           <form className="space-y-5">
             <div>
